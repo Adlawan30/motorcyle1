@@ -65,10 +65,12 @@ public class adminDB extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        transaction = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        dashboard = new javax.swing.JLabel();
+        report = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -162,14 +164,14 @@ public class adminDB extends javax.swing.JFrame {
         });
         mbg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, -1, -1));
 
-        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel9.setText("DASHBOARD");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        transaction.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        transaction.setText("TRANSACTION");
+        transaction.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                transactionMouseClicked(evt);
             }
         });
-        mbg.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 110, 30));
+        mbg.add(transaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, 30));
 
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel10.setText("PROFILE");
@@ -197,6 +199,24 @@ public class adminDB extends javax.swing.JFrame {
             }
         });
         mbg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 50, 30));
+
+        dashboard.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        dashboard.setText("DASHBOARD");
+        dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashboardMouseClicked(evt);
+            }
+        });
+        mbg.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 110, 30));
+
+        report.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        report.setText("REPORT");
+        report.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reportMouseClicked(evt);
+            }
+        });
+        mbg.add(report, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, -1, 30));
 
         getContentPane().add(mbg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 510));
 
@@ -243,12 +263,13 @@ public class adminDB extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel11MouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        adminDB db = new adminDB();
+    private void transactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionMouseClicked
 
-        db.setVisible(true);
+        
+        Motorcycle cycle = new Motorcycle();
+        cycle.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel9MouseClicked
+    }//GEN-LAST:event_transactionMouseClicked
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
         adminlogs log = new adminlogs();
@@ -263,6 +284,19 @@ public class adminDB extends javax.swing.JFrame {
         log.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMouseClicked
+        adminDB db = new adminDB();
+
+        db.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_dashboardMouseClicked
+
+    private void reportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportMouseClicked
+    adminreport rep = new adminreport();
+    rep.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_reportMouseClicked
 
     /**
      * @param args the command line arguments
@@ -300,6 +334,7 @@ public class adminDB extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel dashboard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -311,7 +346,6 @@ public class adminDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -320,5 +354,7 @@ public class adminDB extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mbg;
     private javax.swing.JTable overview;
+    private javax.swing.JLabel report;
+    private javax.swing.JLabel transaction;
     // End of variables declaration//GEN-END:variables
 }

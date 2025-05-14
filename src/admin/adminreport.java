@@ -24,35 +24,67 @@ public class adminreport extends javax.swing.JFrame {
      */
     public adminreport() {
         initComponents();
-        loadLogs();
+        loadTransactionLogs();
     }
     
-    public void loadLogs() {
-    DefaultTableModel model = (DefaultTableModel) overview.getModel();
-    model.setRowCount(0); // clear old data
+    public void loadTransactionLogs() {
+    // Define column headers
+    String[] columnNames = {
+        "Transaction ID",
+        "First Name",
+        "Last Name",
+        "Email",
+        "Motorcycle Type",
+        "Contact Number",
+        "Creation Date"
+    };
+
+    // Create a new table model with the headers
+    DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+    overview.setModel(model); // Set the model to the table
 
     try {
-        Connection conn = connectDB.getConnection(); // Get connection from your class
-        String sql = "SELECT log_id, user_name, action, log_time FROM tbl_logs ORDER BY log_time DESC";
+        // Establish database connection
+        Connection conn = connectDB.getConnection();
+
+        // SQL query to select data from tbl_transaction
+        String sql = "SELECT t_id, t_firstname, t_lastname, t_email, t_mtype, t_contactnumber, t_creationdate FROM tbl_transaction ORDER BY t_creationdate DESC";
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
 
+        // Loop through the result set and add data to the table
         while (rs.next()) {
-            int logId = rs.getInt("log_id");
-            String user = rs.getString("user_name");
-            String action = rs.getString("action");
-            String time = rs.getString("log_time");
+            int transactionId = rs.getInt("t_id");
+            String firstName = rs.getString("t_firstname");
+            String lastName = rs.getString("t_lastname");
+            String email = rs.getString("t_email");
+            String motorcycleType = rs.getString("t_mtype");
+            String contactNumber = rs.getString("t_contactnumber");
+            String creationDate = rs.getString("t_creationdate");
 
-            model.addRow(new Object[]{logId, user, action, time});
+            // Add row data to the table model
+            model.addRow(new Object[]{
+                transactionId,
+                firstName,
+                lastName,
+                email,
+                motorcycleType,
+                contactNumber,
+                creationDate
+            });
         }
 
+        // Close resources
         rs.close();
         stmt.close();
         conn.close();
     } catch (SQLException e) {
         e.printStackTrace();
+        System.out.println("Error loading transaction logs: " + e.getMessage());
     }
 }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -201,7 +233,7 @@ public class adminreport extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
-        loadLogs();
+        loadTransactionLogs();
     }//GEN-LAST:event_refreshActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -236,50 +268,47 @@ public class adminreport extends javax.swing.JFrame {
 
         int selectedRow = overview.getSelectedRow();
 
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Please select a reservation from the table first.");
-            return;
-        }
+if (selectedRow == -1) {
+    JOptionPane.showMessageDialog(null, "Please select a transaction from the table first.");
+    return;
+}
 
-        // Extract values from the 6 visible columns
-        String customer = overview.getValueAt(selectedRow, 1).toString(); // r_customername
-        String type = overview.getValueAt(selectedRow, 2).toString();     // r_type
-        String startDate = overview.getValueAt(selectedRow, 3).toString(); // r_servicestartdate
-        String cost = overview.getValueAt(selectedRow, 4).toString();     // r_cost
-        String status = overview.getValueAt(selectedRow, 5).toString();   // r_status
-        String id = overview.getValueAt(selectedRow, 0).toString();       // r_id (if needed)
+// Extract values from the visible columns in tbl_transaction
+String firstName = overview.getValueAt(selectedRow, 1).toString();  // t_firstname
+String lastName = overview.getValueAt(selectedRow, 2).toString();   // t_lastname
+String email = overview.getValueAt(selectedRow, 3).toString();      // t_email
+String motorcycleType = overview.getValueAt(selectedRow, 4).toString(); // t_mtype
+String contactNumber = overview.getValueAt(selectedRow, 5).toString(); // t_contactnumber
+String id = overview.getValueAt(selectedRow, 0).toString();          // t_id (if needed)
 
-        // Fetch the additional 2 columns (r_creationdate, r_cnumber, r_location) from the database
-        try {
-            connectDB dbc = new connectDB();
-            String query = "SELECT r_creationdate, r_cnumber, r_location FROM tbl_reservation WHERE r_id = ?";
-            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
-            pst.setString(1, id); // Use the r_id to fetch the additional columns
-            ResultSet rs = pst.executeQuery();
+// Fetch the additional column (t_creationdate) from the database
+try {
+    connectDB dbc = new connectDB();
+    String query = "SELECT t_creationdate FROM tbl_transaction WHERE t_id = ?";
+    PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+    pst.setString(1, id); // Use the t_id to fetch the creation date
+    ResultSet rs = pst.executeQuery();
 
-            if (rs.next()) {
-                String creationDate = rs.getString("r_creationdate");
-                String contactNumber = rs.getString("r_cnumber");
-                String location = rs.getString("r_location");
+    if (rs.next()) {
+        String creationDate = rs.getString("t_creationdate");
 
-                // Format and show details in a dialog
-                StringBuilder details = new StringBuilder();
-                details.append("Customer: ").append(customer).append("\n");
-                details.append("Type: ").append(type).append("\n");
-                details.append("Start Date: ").append(startDate).append("\n");
-                details.append("Cost: ").append(cost).append("\n");
-                details.append("Status: ").append(status).append("\n");
-                details.append("Creation Date: ").append(creationDate).append("\n");
-                details.append("Contact: ").append(contactNumber).append("\n");
-                details.append("Location: ").append(location).append("\n");
+        // Format and show details in a dialog
+        StringBuilder details = new StringBuilder();
+        details.append("First Name: ").append(firstName).append("\n");
+        details.append("Last Name: ").append(lastName).append("\n");
+        details.append("Email: ").append(email).append("\n");
+        details.append("Motorcycle Type: ").append(motorcycleType).append("\n");
+        details.append("Contact Number: ").append(contactNumber).append("\n");
+        details.append("Creation Date: ").append(creationDate).append("\n");
 
-                // Show the details in a JOptionPane dialog
-                JOptionPane.showMessageDialog(null, details.toString(), "Reservation Details", JOptionPane.INFORMATION_MESSAGE);
-            }
+        // Show the details in a JOptionPane dialog
+        JOptionPane.showMessageDialog(null, details.toString(), "Transaction Details", JOptionPane.INFORMATION_MESSAGE);
+    }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error loading additional data: " + e.getMessage());
-        }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "Error loading additional data: " + e.getMessage());
+}
+
 
     }//GEN-LAST:event_reservationActionPerformed
 

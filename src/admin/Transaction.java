@@ -11,6 +11,7 @@ import config.connectDB;
 import config.hasher;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,28 +31,7 @@ public class Transaction extends javax.swing.JFrame {
         initComponents();
     }
     
-    private boolean emailExists(String email) {
-
-        connectDB con = new connectDB();
-
-        try {
-            String query = "SELECT * FROM tbl_user WHERE u_email = ?";
-            PreparedStatement pstmt = con.getConnection().prepareStatement(query);
-            pstmt.setString(1, email.trim());
-            ResultSet resultSet = pstmt.executeQuery();
-
-            if (resultSet.next()) {
-
-                return true;
-            }
-
-        } catch (SQLException ex) {
-            System.out.println("" + ex);
-
-        }
-
-        return false;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,7 +70,7 @@ public class Transaction extends javax.swing.JFrame {
         backlogin = new javax.swing.JLabel();
         motorcycletype = new javax.swing.JComboBox<>();
         motorcyclebrand = new javax.swing.JLabel();
-        requiredrole = new javax.swing.JLabel();
+        requiredtype = new javax.swing.JLabel();
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -189,7 +169,7 @@ public class Transaction extends javax.swing.JFrame {
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
 
         requiredfname.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jPanel2.add(requiredfname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 180, 10));
+        jPanel2.add(requiredfname, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 180, 10));
 
         lastnametext.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         lastnametext.setText("Last Name");
@@ -209,7 +189,7 @@ public class Transaction extends javax.swing.JFrame {
         jPanel2.add(lastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 196, 30));
 
         requiredlname.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jPanel2.add(requiredlname, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, 190, 10));
+        jPanel2.add(requiredlname, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 190, 10));
 
         email.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         email.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -249,7 +229,7 @@ public class Transaction extends javax.swing.JFrame {
         jPanel2.add(cnumbertext, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 160, -1, -1));
 
         requiredcnumber.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jPanel2.add(requiredcnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, 190, 10));
+        jPanel2.add(requiredcnumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 190, 10));
 
         errorType.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jPanel2.add(errorType, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 190, 10));
@@ -264,7 +244,7 @@ public class Transaction extends javax.swing.JFrame {
         });
         jPanel2.add(backlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 170, 50));
 
-        motorcycletype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(Choose You Want to Buy)", "BMW R Nine T", "Ducati Pagnigale V2", "Yamaha MT-27", " " }));
+        motorcycletype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(Choose You Want to Buy)", "BMW R Nine T", "Ducati Pagnigale V2", "Yamaha MT-27", "" }));
         motorcycletype.setOpaque(false);
         motorcycletype.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -282,8 +262,8 @@ public class Transaction extends javax.swing.JFrame {
         motorcyclebrand.setText("MOTORCYCLE BRAND");
         jPanel2.add(motorcyclebrand, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
 
-        requiredrole.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jPanel2.add(requiredrole, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 290, 190, 10));
+        requiredtype.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        jPanel2.add(requiredtype, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 190, 10));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 570, 470));
 
@@ -321,25 +301,80 @@ public class Transaction extends javax.swing.JFrame {
     }//GEN-LAST:event_purchaseFocusLost
 
     private void purchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseActionPerformed
-        if (signUpValidation()) {
-    connectDB con = new connectDB();
-    hasher hasher = new hasher();
+// Get the first name, last name, email, motorcycle type, and contact number
+String firstName = firstname.getText();
+String lastName = lastname.getText();
+String emailAddress = email.getText();  // Get the email address
+String motorcycleType = (String) motorcycletype.getSelectedItem();  // Get the selected motorcycle type
+String contactNumber = contactnumber.getText();
 
-    // Hash the password before storing it
-    String hashedPassword = hasher.hashPassword(password.getText());
-
-    con.insertData("INSERT INTO tbl_user (u_firstname, u_lastname, u_email, u_contactnumber, u_hashpw, u_type, u_status) " +
-            "VALUES ('" + firstname.getText() + "','" + lastname.getText() + "','" + email.getText() + "'," +
-            "'" + contactnumber.getText() + "','" + hashedPassword + "', 'Employee', 'Pending')");
-
-    JOptionPane.showMessageDialog(this, "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-    login lg = new login();
-    lg.setVisible(true);
-    this.dispose();
+// Check for any missing required fields
+if (firstName.isEmpty() || lastName.isEmpty() || emailAddress.isEmpty() || motorcycleType.equals("(Choose Motorcycle Type)") || contactNumber.isEmpty()) {
+    // Show a message or highlight the fields that are missing
+    if (firstName.isEmpty()) {
+        requiredfname.setText("First Name is required");
+    }
+    if (lastName.isEmpty()) {
+        requiredlname.setText("Last Name is required");
+    }
+    if (emailAddress.isEmpty()) {
+        requiredemail.setText("Email is required");
+    }
+    if (motorcycleType.equals("(Choose Motorcycle Type)")) {
+        requiredtype.setText("Motorcycle Type is required");
+    }
+    if (contactNumber.isEmpty()) {
+        requiredcnumber.setText("Contact number is required");
+    }
 } else {
-    JOptionPane.showMessageDialog(this, "Sign up error. Please fill all required fields.", "Warning", JOptionPane.WARNING_MESSAGE);
+    // Insert transaction into the database if everything is valid
+    try {
+        // Establish database connection
+        connectDB db = new connectDB();
+        Connection conn = db.getConnection();
+
+        // SQL query to insert transaction details into tbl_transaction
+        // Using NOW() to insert the current date and time into t_creationdate
+        String query = "INSERT INTO tbl_transaction (t_firstname, t_lastname, t_email, t_mtype, t_contactnumber, t_creationdate) "
+                     + "VALUES (?, ?, ?, ?, ?, NOW())";
+
+        // Create prepared statement with RETURN_GENERATED_KEYS option
+        PreparedStatement stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+        stmt.setString(1, firstName);    // Use first name
+        stmt.setString(2, lastName);     // Use last name
+        stmt.setString(3, emailAddress); // Use email
+        stmt.setString(4, motorcycleType); // Use motorcycle type
+        stmt.setString(5, contactNumber); // Use contact number
+
+        // Execute the insert and retrieve generated keys
+        int result = stmt.executeUpdate();
+        if (result > 0) {
+            // Get generated transaction ID
+            java.sql.ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                int transactionId = rs.getInt(1);  // Transaction ID
+                System.out.println("Transaction created successfully! ID: " + transactionId);
+            }
+
+            // Optionally, clear the fields after submission
+            firstname.setText("");
+            lastname.setText("");
+            email.setText("");  // Clear the email field
+            motorcycletype.setSelectedIndex(0);  // Reset motorcycle type
+            contactnumber.setText("");  // Clear the contact number field
+        }
+
+        // After successful submission, navigate back to the transaction panel
+        this.dispose();  // Close the current window
+        adminDB transaction = new adminDB();  // Create a new instance of the transaction panel
+        transaction.setVisible(true);  // Show the transaction panel
+    } catch (Exception e) {
+        e.printStackTrace();
+        // Handle database exceptions
+        System.out.println("Error inserting transaction: " + e.getMessage());
+    }
 }
+
 
     }//GEN-LAST:event_purchaseActionPerformed
 
@@ -367,31 +402,7 @@ public class Transaction extends javax.swing.JFrame {
     }//GEN-LAST:event_lastnameActionPerformed
 
     private void emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusLost
-        Font smallFont = new Font("Arial", Font.PLAIN, 10);
-        email.setFont(smallFont);
-        requiredemail.setFont(smallFont);
-
-        String email1 = email.getText();
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
-        if (email1.isEmpty()) {
-            email.setForeground(Color.RED);
-            requiredemail.setText("Email is required");
-            requiredemail.setForeground(Color.RED);
-        } else if (!email1.matches(emailRegex)) {
-            email.setForeground(Color.RED);
-            requiredemail.setText("Email is invalid");
-            requiredemail.setForeground(Color.RED);
-        } else if (emailExists(email1)) {
-            email.setForeground(Color.RED);
-            requiredemail.setText("Email already exists");
-            requiredemail.setForeground(Color.RED);
-        } else {
-            email.setForeground(Color.BLACK);
-            requiredemail.setText("");
-        }
-
-        email.repaint();
+        
     }//GEN-LAST:event_emailFocusLost
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -435,11 +446,11 @@ public class Transaction extends javax.swing.JFrame {
     private void motorcycletypeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_motorcycletypeFocusLost
         if (motorcycletype.getSelectedIndex() == 0) {
             motorcycletype.setForeground(Color.RED);
-            requiredrole.setText("Please choose account type");
-            requiredrole.setForeground(Color.RED);
+            requiredtype.setText("Please choose account type");
+            requiredtype.setForeground(Color.RED);
         } else {
             motorcycletype.setForeground(Color.BLACK);
-            requiredrole.setText("");
+            requiredtype.setText("");
         }
 
         motorcycletype.repaint();
@@ -459,127 +470,57 @@ public class Transaction extends javax.swing.JFrame {
 
     
     private boolean signUpValidation() {
-        boolean valid = true;
-        
- //First name Validation       
- String user = firstname.getText();
+    boolean valid = true;
 
-if (user.isEmpty()) {
-    firstname.setForeground(Color.RED);
-    requiredfname.setText("First Name is required");
-    requiredfname.setForeground(Color.RED);
-    valid = false;
-} else {
-    firstname.setForeground(Color.BLACK);
-    requiredfname.setText("");
+    // First Name Validation
+    String user = firstname.getText();
+    if (user.isEmpty()) {
+        firstname.setForeground(Color.RED);
+        requiredfname.setText("First Name is required");
+        requiredfname.setForeground(Color.RED);
+        valid = false;
+    } else {
+        firstname.setForeground(Color.BLACK);
+        requiredfname.setText("");
+    }
+    firstname.repaint();
+
+    // Last Name Validation
+    String last = lastname.getText();
+    if (last.isEmpty()) {
+        lastname.setForeground(Color.RED);
+        requiredlname.setText("Last Name is required");
+        requiredlname.setForeground(Color.RED);
+        valid = false;
+    } else {
+        lastname.setForeground(Color.BLACK);
+        requiredlname.setText("");
+    }
+    lastname.repaint();
+
+    
+
+    // Contact Number Validation
+    String con = contactnumber.getText();
+    if (con.isEmpty()) {
+        contactnumber.setForeground(Color.RED);
+        requiredcnumber.setText("Contact Number is required");
+        requiredcnumber.setForeground(Color.RED);
+        valid = false;
+    } else if (!con.matches("\\d{11}")) {  // Ensure 11 digits
+        contactnumber.setForeground(Color.RED);
+        requiredcnumber.setText("Contact Number must be exactly 11 digits");
+        requiredcnumber.setForeground(Color.RED);
+        valid = false;
+    } else {
+        contactnumber.setForeground(Color.BLACK);
+        requiredcnumber.setText("");
+    }
+    contactnumber.repaint();
+
+    return valid;
 }
-
-firstname.repaint();
-
-
-// Last name Validation
-
-String last = lastname.getText();
-
-if (last.isEmpty()) {
-    lastname.setForeground(Color.RED);
-    requiredlname.setText("Last Name is required");
-    requiredlname.setForeground(Color.RED);
-    valid = false;
-} else {
-    lastname.setForeground(Color.BLACK);
-    requiredlname.setText("");
-}
-
-lastname.repaint();
-
-// Email Validation
-
-String email1 = email.getText();
-String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
-if (email1.isEmpty()) {
-    email.setForeground(Color.RED);
-    requiredemail.setText("Email is required");
-    requiredemail.setForeground(Color.RED);
-    valid = false;
-} else if (!email1.matches(emailRegex)) {
-    email.setForeground(Color.RED);
-    requiredemail.setText("Email is invalid");
-    requiredemail.setForeground(Color.RED);
-    valid = false;
-} else if (emailExists(email1)) {
-    email.setForeground(Color.RED);
-    requiredemail.setText("Email already exists");
-    requiredemail.setForeground(Color.RED);
-    valid = false;
-} else {
-    email.setForeground(Color.BLACK);
-    requiredemail.setText("");
-}
-
-email.repaint();
-
-// Contact Number Validation
-
-String con = contactnumber.getText();
-
-if (con.isEmpty()) {
-    contactnumber.setForeground(Color.RED);
-    requiredcnumber.setText("Contact Number is required");
-    requiredcnumber.setForeground(Color.RED);
-    valid = false;
-} else if (!con.matches("\\d{11}")) { 
-    contactnumber.setForeground(Color.RED);
-    requiredcnumber.setText("Contact Number must be exactly 11 digits");
-    requiredcnumber.setForeground(Color.RED);
-    valid = false;
-} else {
-    contactnumber.setForeground(Color.BLACK);
-    requiredcnumber.setText("");
-}
-
-contactnumber.repaint();
-
-
-// Password Validation
-
-String password1 = password.getText();
-
-        if (password1.isEmpty()) {
-            password.setForeground(Color.RED);
-            errorType.setText("Password is required");
-            errorType.setForeground(Color.RED);
-            valid = false;
-        } else if (password1.length() < 8) {
-
-            password.setForeground(Color.RED);
-            errorType.setText("Password too short. Must be 8 characters or more");
-            errorType.setForeground(Color.RED);
-            valid = false;
-        } else {
-            password.setForeground(Color.BLACK);
-            errorType.setText("Password good");
-            errorType.setForeground(Color.GREEN);
-        }
-        password.repaint();        
-        
-        //type validation
-        
-        if (motorcycletype.getSelectedIndex() == 0) {
-            motorcycletype.setForeground(Color.RED);
-            requiredrole.setText("Please choose account type");
-            requiredrole.setForeground(Color.RED);
-            valid = false;
-        } else {
-            motorcycletype.setForeground(Color.BLACK);
-            requiredrole.setText("");
-        }
-
-        motorcycletype.repaint();
-
-        return valid;
-    }    
+    
      
     
     /**
@@ -647,6 +588,6 @@ String password1 = password.getText();
     private javax.swing.JLabel requiredemail;
     private javax.swing.JLabel requiredfname;
     private javax.swing.JLabel requiredlname;
-    private javax.swing.JLabel requiredrole;
+    private javax.swing.JLabel requiredtype;
     // End of variables declaration//GEN-END:variables
 }

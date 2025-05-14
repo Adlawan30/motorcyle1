@@ -230,7 +230,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="110" width="180" height="10"/>
+                  <AbsoluteConstraints x="70" y="140" width="180" height="10"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -269,7 +269,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="290" y="110" width="190" height="10"/>
+                  <AbsoluteConstraints x="320" y="140" width="190" height="10"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -347,7 +347,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="290" y="180" width="190" height="10"/>
+                  <AbsoluteConstraints x="320" y="220" width="190" height="10"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -388,7 +388,7 @@
                     <StringItem index="1" value="BMW R Nine T"/>
                     <StringItem index="2" value="Ducati Pagnigale V2"/>
                     <StringItem index="3" value="Yamaha MT-27"/>
-                    <StringItem index="4" value=" "/>
+                    <StringItem index="4" value=""/>
                   </StringArray>
                 </Property>
                 <Property name="opaque" type="boolean" value="false"/>
@@ -419,7 +419,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JLabel" name="requiredrole">
+            <Component class="javax.swing.JLabel" name="requiredtype">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="10" style="1"/>
@@ -427,7 +427,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="290" y="290" width="190" height="10"/>
+                  <AbsoluteConstraints x="200" y="330" width="190" height="10"/>
                 </Constraint>
               </Constraints>
             </Component>
