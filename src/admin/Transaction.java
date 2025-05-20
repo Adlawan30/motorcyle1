@@ -333,18 +333,18 @@ if (firstName.isEmpty() || lastName.isEmpty() || emailAddress.isEmpty() || motor
         connectDB db = new connectDB();
         Connection conn = db.getConnection();
 
-        // SQL query to insert transaction details into tbl_transaction
-        // Using NOW() to insert the current date and time into t_creationdate
-        String query = "INSERT INTO tbl_transaction (t_firstname, t_lastname, t_email, t_mtype, t_contactnumber, t_creationdate) "
-                     + "VALUES (?, ?, ?, ?, ?, NOW())";
+        // SQL query to insert transaction details into tbl_transaction including status as 'Pending'
+        String query = "INSERT INTO tbl_transaction (t_firstname, t_lastname, t_email, t_mtype, t_contactnumber, t_creationdate, status) "
+                     + "VALUES (?, ?, ?, ?, ?, NOW(), ?)";
 
         // Create prepared statement with RETURN_GENERATED_KEYS option
         PreparedStatement stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-        stmt.setString(1, firstName);    // Use first name
-        stmt.setString(2, lastName);     // Use last name
-        stmt.setString(3, emailAddress); // Use email
-        stmt.setString(4, motorcycleType); // Use motorcycle type
-        stmt.setString(5, contactNumber); // Use contact number
+        stmt.setString(1, firstName);
+        stmt.setString(2, lastName);
+        stmt.setString(3, emailAddress);
+        stmt.setString(4, motorcycleType);
+        stmt.setString(5, contactNumber);
+        stmt.setString(6, "Pending"); // Set status to "Pending"
 
         // Execute the insert and retrieve generated keys
         int result = stmt.executeUpdate();
@@ -359,9 +359,9 @@ if (firstName.isEmpty() || lastName.isEmpty() || emailAddress.isEmpty() || motor
             // Optionally, clear the fields after submission
             firstname.setText("");
             lastname.setText("");
-            email.setText("");  // Clear the email field
-            motorcycletype.setSelectedIndex(0);  // Reset motorcycle type
-            contactnumber.setText("");  // Clear the contact number field
+            email.setText("");
+            motorcycletype.setSelectedIndex(0);
+            contactnumber.setText("");
         }
 
         // After successful submission, navigate back to the transaction panel
@@ -370,7 +370,6 @@ if (firstName.isEmpty() || lastName.isEmpty() || emailAddress.isEmpty() || motor
         transaction.setVisible(true);  // Show the transaction panel
     } catch (Exception e) {
         e.printStackTrace();
-        // Handle database exceptions
         System.out.println("Error inserting transaction: " + e.getMessage());
     }
 }

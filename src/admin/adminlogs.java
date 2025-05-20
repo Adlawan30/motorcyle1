@@ -73,10 +73,11 @@ public class adminlogs extends javax.swing.JFrame {
         refresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        dashboard = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,41 +134,57 @@ public class adminlogs extends javax.swing.JFrame {
 
         mbg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 690, 510));
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLabel5.setText("PROFILE");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        dashboard.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        dashboard.setText("DASHBOARD");
+        dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                dashboardMouseClicked(evt);
             }
         });
-        mbg.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 70, 30));
+        mbg.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 110, 30));
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLabel9.setText("ACCOUNT");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel11.setText("ACCOUNT");
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                jLabel11MouseClicked(evt);
             }
         });
-        mbg.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 90, 30));
+        mbg.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 90, 30));
 
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLabel10.setText("DASHBOARD");
+        jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel10.setText("PROFILE");
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel10MouseClicked(evt);
             }
         });
-        mbg.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 110, 30));
+        mbg.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, 30));
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLabel6.setText("LOGS");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel13.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        jLabel13.setText("LOGS");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
+                jLabel13MouseClicked(evt);
             }
         });
-        mbg.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 50, 30));
+        mbg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 50, 30));
+
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout 2.png"))); // NOI18N
+        jLabel8.setText("Logout");
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jLabel8FocusLost(evt);
+            }
+        });
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        mbg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -198,33 +215,43 @@ public class adminlogs extends javax.swing.JFrame {
         loadLogs();
     }//GEN-LAST:event_refreshActionPerformed
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        account acc = new account();
-
-        acc.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        accountmanager man = new accountmanager();
-
-        man.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+    private void dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMouseClicked
         adminDB db = new adminDB();
 
         db.setVisible(true);
         this.dispose();
+    }//GEN-LAST:event_dashboardMouseClicked
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+        accountmanager man = new accountmanager();
+
+        man.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        account acc = new account();
+
+        acc.setVisible(true);
     }//GEN-LAST:event_jLabel10MouseClicked
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
         adminlogs log = new adminlogs();
 
         log.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel6MouseClicked
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void jLabel8FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jLabel8FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel8FocusLost
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        login log = new login();
+
+        log.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -263,11 +290,12 @@ public class adminlogs extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel dashboard;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;

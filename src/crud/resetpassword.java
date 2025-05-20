@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import crud.forgotpassword2;
 
 /**
  *
@@ -45,8 +46,6 @@ public class resetpassword extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         logintext = new javax.swing.JLabel();
         Signup = new javax.swing.JButton();
-        password = new javax.swing.JTextField();
-        emailtext1 = new javax.swing.JLabel();
         answer = new javax.swing.JTextField();
         question1 = new javax.swing.JLabel();
 
@@ -58,7 +57,7 @@ public class resetpassword extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         logintext.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        logintext.setText("NEW PASSWORD");
+        logintext.setText("SECRET ANSWER");
 
         Signup.setBackground(new java.awt.Color(241, 185, 185));
         Signup.setText("Submit");
@@ -73,20 +72,6 @@ public class resetpassword extends javax.swing.JFrame {
                 SignupActionPerformed(evt);
             }
         });
-
-        password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        password.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                passwordFocusLost(evt);
-            }
-        });
-        password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
-            }
-        });
-
-        emailtext1.setText("Password");
 
         answer.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         answer.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -107,47 +92,30 @@ public class resetpassword extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(92, 92, 92)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(64, 64, 64)
-                                    .addComponent(emailtext1))))
-                        .addComponent(logintext, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addGap(76, 76, 76)
-                            .addComponent(Signup, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(91, 91, 91)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(question1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(answer, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addGap(85, 85, 85)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(logintext)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(Signup, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(question1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(answer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addGap(24, 24, 24)
                 .addComponent(logintext)
-                .addGap(35, 35, 35)
-                .addComponent(emailtext1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(question1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(answer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Signup, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 380, 240));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 380, 170));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,9 +125,7 @@ public class resetpassword extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -171,8 +137,7 @@ public class resetpassword extends javax.swing.JFrame {
 
     private void SignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignupActionPerformed
 
-String userAnswer = answer.getText().trim();
-    String newPassword = password.getText().trim();
+ String userAnswer = answer.getText().trim();
 
     // Step 1: Check if the answer is correct
     if (!userAnswer.equals(correctAnswer)) {
@@ -180,43 +145,11 @@ String userAnswer = answer.getText().trim();
         return;
     }
 
-    // Step 2: Validate the new password (add your own validation rules here)
-    if (newPassword.isEmpty() || newPassword.length() < 6) {
-        JOptionPane.showMessageDialog(this, "Password must be at least 6 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // Step 3: Hash the new password using the hasher class
-    String hashedPassword = hasher.hashPassword(newPassword);
-    
-    // Step 4: Update the password in the database
-    try (Connection conn = connectDB.getConnection()) {
-        String sql = "UPDATE tbl_user SET u_hashpw = ? WHERE u_email = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, hashedPassword); // Set the hashed password
-        stmt.setString(2, userIdentifier); // Use userIdentifier to find the user
-
-        int rowsUpdated = stmt.executeUpdate();
-        if (rowsUpdated > 0) {
-            JOptionPane.showMessageDialog(this, "Password successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose(); // Close the form after success
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error updating password.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+    // Step 2: Proceed to forgotpassword2.java
+    this.dispose(); // Close the current window
+    new forgotpassword2(userIdentifier).setVisible(true); // Open next form
 
     }//GEN-LAST:event_SignupActionPerformed
-
-    private void passwordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordFocusLost
-
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
 
     private void answerFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_answerFocusLost
         // TODO add your handling code here:
@@ -292,11 +225,9 @@ private void loadSecurityInfo(String email) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Signup;
     private javax.swing.JTextField answer;
-    private javax.swing.JLabel emailtext1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel logintext;
-    private javax.swing.JTextField password;
     private javax.swing.JLabel question1;
     // End of variables declaration//GEN-END:variables
 }

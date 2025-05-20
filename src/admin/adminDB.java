@@ -8,6 +8,7 @@ package admin;
 import config.connectDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 import panel.login;
 import panel.register;
@@ -31,7 +32,7 @@ public class adminDB extends javax.swing.JFrame {
         
         try{
             connectDB dbc = new connectDB();
-            ResultSet rs = dbc.getData("SELECT * FROM tbl_user");           
+            ResultSet rs = dbc.getData("SELECT * FROM tbl_transaction");           
             overview.setModel(DbUtils.resultSetToTableModel(rs));
             
             
@@ -52,25 +53,19 @@ public class adminDB extends javax.swing.JFrame {
 
         mbg = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         overview = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
+        refresh = new javax.swing.JButton();
+        approve = new javax.swing.JButton();
+        reject = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        transaction = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         dashboard = new javax.swing.JLabel();
-        report = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,33 +76,6 @@ public class adminDB extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel2.setBackground(new java.awt.Color(0, 204, 255));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel1.setText("Clients");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 140, 110));
-
-        jPanel3.setBackground(new java.awt.Color(0, 204, 255));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel2.setText("Admins");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 140, 110));
-
-        jPanel4.setBackground(new java.awt.Color(0, 204, 255));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel3.setText("Pending Accounts");
-        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, 140, 110));
 
         jPanel5.setBackground(new java.awt.Color(153, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -125,28 +93,43 @@ public class adminDB extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(overview);
 
-        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 650, 260));
+        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 650, 260));
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Overview");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 70, 20));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 20));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 670, 320));
+        refresh.setText("REFRESH");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+        jPanel5.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+
+        approve.setText("Approve");
+        approve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                approveActionPerformed(evt);
+            }
+        });
+        jPanel5.add(approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 40, -1, -1));
+
+        reject.setText("Reject");
+        reject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rejectActionPerformed(evt);
+            }
+        });
+        jPanel5.add(reject, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, -1, -1));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 670, 340));
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setText("ADMIN DASHBOARD");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
 
         mbg.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 700, 510));
-
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel5.setText("ACCOUNT");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-        mbg.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 90, 30));
 
         jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
@@ -164,15 +147,6 @@ public class adminDB extends javax.swing.JFrame {
         });
         mbg.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, -1, -1));
 
-        transaction.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        transaction.setText("TRANSACTION");
-        transaction.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                transactionMouseClicked(evt);
-            }
-        });
-        mbg.add(transaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, 30));
-
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel10.setText("PROFILE");
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,7 +154,7 @@ public class adminDB extends javax.swing.JFrame {
                 jLabel10MouseClicked(evt);
             }
         });
-        mbg.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, 30));
+        mbg.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, 30));
 
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel11.setText("ACCOUNT");
@@ -189,7 +163,7 @@ public class adminDB extends javax.swing.JFrame {
                 jLabel11MouseClicked(evt);
             }
         });
-        mbg.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 90, 30));
+        mbg.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 90, 30));
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         jLabel13.setText("LOGS");
@@ -198,7 +172,7 @@ public class adminDB extends javax.swing.JFrame {
                 jLabel13MouseClicked(evt);
             }
         });
-        mbg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 50, 30));
+        mbg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 50, 30));
 
         dashboard.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         dashboard.setText("DASHBOARD");
@@ -207,16 +181,7 @@ public class adminDB extends javax.swing.JFrame {
                 dashboardMouseClicked(evt);
             }
         });
-        mbg.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 110, 30));
-
-        report.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        report.setText("REPORT");
-        report.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                reportMouseClicked(evt);
-            }
-        });
-        mbg.add(report, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, -1, 30));
+        mbg.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 110, 30));
 
         getContentPane().add(mbg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 510));
 
@@ -244,12 +209,6 @@ public class adminDB extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        account acc = new account();
-
-        acc.setVisible(true);
-        this.dispose();    }//GEN-LAST:event_jLabel5MouseClicked
-
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
         account acc = new account();
 
@@ -262,14 +221,6 @@ public class adminDB extends javax.swing.JFrame {
         man.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel11MouseClicked
-
-    private void transactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionMouseClicked
-
-        
-        Motorcycle cycle = new Motorcycle();
-        cycle.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_transactionMouseClicked
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
         adminlogs log = new adminlogs();
@@ -292,11 +243,39 @@ public class adminDB extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_dashboardMouseClicked
 
-    private void reportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportMouseClicked
-    adminreport rep = new adminreport();
-    rep.setVisible(true);
-    this.dispose();
-    }//GEN-LAST:event_reportMouseClicked
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        displayData();
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void approveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveActionPerformed
+        int selectedRow = overview.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+            return;
+        }
+
+        String id = overview.getValueAt(selectedRow, 0).toString();
+
+        connectDB con = new connectDB();
+
+        con.updateData("UPDATE tbl_transaction SET status = 'Approve' WHERE t_id = '"+id+"'");
+    }//GEN-LAST:event_approveActionPerformed
+
+    private void rejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rejectActionPerformed
+         int selectedRow = overview.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+            return;
+        }
+
+        String id = overview.getValueAt(selectedRow, 0).toString();
+
+        connectDB con = new connectDB();
+
+        con.updateData("UPDATE tbl_transaction SET status = 'Reject' WHERE t_id = '"+id+"'");
+    }//GEN-LAST:event_rejectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,27 +313,21 @@ public class adminDB extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton approve;
     private javax.swing.JLabel dashboard;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mbg;
     private javax.swing.JTable overview;
-    private javax.swing.JLabel report;
-    private javax.swing.JLabel transaction;
+    private javax.swing.JButton refresh;
+    private javax.swing.JButton reject;
     // End of variables declaration//GEN-END:variables
 }

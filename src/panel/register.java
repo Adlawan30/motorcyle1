@@ -94,6 +94,8 @@ public class register extends javax.swing.JFrame {
         answertext = new javax.swing.JLabel();
         answer = new javax.swing.JPasswordField();
         answerrequired = new javax.swing.JLabel();
+        role = new javax.swing.JComboBox<>();
+        roletext = new javax.swing.JLabel();
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -283,7 +285,7 @@ public class register extends javax.swing.JFrame {
         jPanel2.add(backlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, -1, -1));
 
         questiontext.setText("Question");
-        jPanel2.add(questiontext, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, -1, -1));
+        jPanel2.add(questiontext, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, -1, -1));
 
         question.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(Choose Questions)", "What is your mother's maiden name?", "What was the name of your first pet?", "What was the name of your elementary school?", "What is your favorite color?", "What city were you born in?", "" }));
         question.setOpaque(false);
@@ -297,10 +299,10 @@ public class register extends javax.swing.JFrame {
                 questionActionPerformed(evt);
             }
         });
-        jPanel2.add(question, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 180, -1));
+        jPanel2.add(question, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 180, -1));
 
         answertext.setText("Answer");
-        jPanel2.add(answertext, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, -1, -1));
+        jPanel2.add(answertext, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 190, -1, -1));
 
         answer.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -312,10 +314,27 @@ public class register extends javax.swing.JFrame {
                 answerActionPerformed(evt);
             }
         });
-        jPanel2.add(answer, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 240, 30));
+        jPanel2.add(answer, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 240, 30));
 
         answerrequired.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jPanel2.add(answerrequired, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 240, 10));
+        jPanel2.add(answerrequired, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, 240, 10));
+
+        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(Choose Role)", "Admin", "Employee", "" }));
+        role.setOpaque(false);
+        role.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                roleFocusLost(evt);
+            }
+        });
+        role.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleActionPerformed(evt);
+            }
+        });
+        jPanel2.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 180, -1));
+
+        roletext.setText("Role");
+        jPanel2.add(roletext, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 570, 460));
 
@@ -343,20 +362,23 @@ if (signUpValidation()) {
     // Get the answer entered by the user
     String answerText = new String(answer.getPassword());
 
+    // Get selected role from JComboBox
+    String selectedRole = (String) role.getSelectedItem();
+
     // SQL query using PreparedStatement to avoid SQL injection
     String query = "INSERT INTO tbl_user (u_firstname, u_lastname, u_email, u_contactnumber, u_hashpw, u_question, u_answer, u_type, u_status) " +
                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (PreparedStatement ps = con.getConnection().prepareStatement(query)) {
-        ps.setString(1, firstname.getText()); // First name
-        ps.setString(2, lastname.getText());  // Last name
-        ps.setString(3, email.getText());     // Email
-        ps.setString(4, contactnumber.getText()); // Contact number
-        ps.setString(5, hashedPassword);      // Hashed password
-        ps.setString(6, selectedQuestion);    // Selected security question
-        ps.setString(7, answerText);          // Security question answer
-        ps.setString(8, "Employee");          // Type (hardcoded as 'Employee')
-        ps.setString(9, "Pending");           // Status (hardcoded as 'Pending')
+        ps.setString(1, firstname.getText());       // First name
+        ps.setString(2, lastname.getText());        // Last name
+        ps.setString(3, email.getText());           // Email
+        ps.setString(4, contactnumber.getText());   // Contact number
+        ps.setString(5, hashedPassword);            // Hashed password
+        ps.setString(6, selectedQuestion);          // Selected security question
+        ps.setString(7, answerText);                 // Security question answer
+        ps.setString(8, selectedRole);               // Type from JComboBox 'role'
+        ps.setString(9, "Pending");                   // Status (hardcoded as 'Pending')
 
         // Execute the update
         ps.executeUpdate();
@@ -557,6 +579,14 @@ if (selectedQuestion.equals("Select a question")) {
 }
     }//GEN-LAST:event_answerActionPerformed
 
+    private void roleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roleFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleFocusLost
+
+    private void roleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleActionPerformed
+
     
     private boolean signUpValidation() {
     boolean valid = true;
@@ -743,5 +773,7 @@ if (selectedQuestion.equals("Select a question")) {
     private javax.swing.JLabel requiredfname;
     private javax.swing.JLabel requiredlname;
     private javax.swing.JLabel requiredpassword;
+    private javax.swing.JComboBox<String> role;
+    private javax.swing.JLabel roletext;
     // End of variables declaration//GEN-END:variables
 }
