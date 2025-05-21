@@ -10,6 +10,7 @@ import config.hasher;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+import panel.login;
 
 /**
  *
@@ -161,6 +162,9 @@ public class forgotpassword2 extends javax.swing.JFrame {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error updating password.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+    login lg = new login();
+        lg.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_SignupActionPerformed
 
