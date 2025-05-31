@@ -7,6 +7,13 @@ package panel;
 
 import admin.*;
 import config.connectDB;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -108,6 +115,7 @@ public class employeereport extends javax.swing.JFrame {
         overview = new javax.swing.JTable();
         refresh = new javax.swing.JButton();
         reservation = new javax.swing.JButton();
+        print = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         transaction = new javax.swing.JLabel();
@@ -162,7 +170,15 @@ public class employeereport extends javax.swing.JFrame {
                 reservationActionPerformed(evt);
             }
         });
-        jPanel5.add(reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, -1, -1));
+        jPanel5.add(reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 110, -1, -1));
+
+        print.setText("PRINT");
+        print.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printActionPerformed(evt);
+            }
+        });
+        jPanel5.add(print, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, -1, -1));
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 690, 430));
 
@@ -319,6 +335,123 @@ try {
         this.dispose();
     }//GEN-LAST:event_reportMouseClicked
 
+    private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
+        int selectedRow = overview.getSelectedRow();
+
+    // If no row is selected, show a message and exit
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a reservation to print.");
+        return;
+    }
+
+    // Assuming the reservationId is in the first column (index 0)
+    int reservationId = Integer.parseInt(overview.getValueAt(selectedRow, 0).toString());
+
+    // Call the print receipt method and pass the reservationId
+    printReceipt(reservationId);
+    }//GEN-LAST:event_printActionPerformed
+    
+    private void printReceipt(int transactionId) {
+    // Create a PrinterJob instance
+    PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+    printerJob.setPrintable((Graphics g, PageFormat pf, int pageIndex) -> {
+        if (pageIndex > 0) {
+            return Printable.NO_SUCH_PAGE;
+        }
+
+        // Title Section
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        g.setColor(Color.BLACK);
+        g.drawString("Motorcycle System Management", 150, 70);
+        g.drawLine(100, 80, 500, 80);
+
+        // Font for content
+        g.setFont(new Font("Monospaced", Font.PLAIN, 12));
+
+        try (Connection conn = connectDB.getConnection()) {
+            String sql = "SELECT * FROM tbl_transaction WHERE t_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, transactionId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String firstName = rs.getString("t_firstname");
+                String lastName = rs.getString("t_lastname");
+                String email = rs.getString("t_email");
+                String contactNumber = rs.getString("t_contactnumber");
+                String mtype = rs.getString("t_mtype");
+                String creationDate = rs.getString("t_creationdate");
+                String status = rs.getString("status");
+
+                int y = 100;
+
+                // Customer Info Section
+                g.setFont(new Font("SansSerif", Font.BOLD, 12));
+                g.drawString("Customer Information", 100, y);
+                g.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                y += 15;
+                g.drawString("Name           : " + firstName + " " + lastName, 100, y);
+                y += 15;
+                g.drawString("Email          : " + email, 100, y);
+                y += 15;
+                g.drawString("Contact Number : " + contactNumber, 100, y);
+
+                y += 25; // Add space before next section
+
+                // Transaction Details Section
+                g.setFont(new Font("SansSerif", Font.BOLD, 12));
+                g.drawString("Transaction Details", 100, y);
+                g.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                y += 15;
+                g.drawString("Transaction ID : " + transactionId, 100, y);
+                y += 15;
+                g.drawString("Motorcycle Type: " + mtype, 100, y);
+                y += 15;
+                g.drawString("Creation Date  : " + creationDate, 100, y);
+                y += 15;
+                g.drawString("Status         : " + status, 100, y);
+
+                // Footer
+                y += 30;
+                g.setFont(new Font("SansSerif", Font.ITALIC, 10));
+                g.drawString("Thank you for using Motorcycle System Management!", 100, y);
+                g.drawLine(100, y + 5, 500, y + 5);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Printable.PAGE_EXISTS;
+    });
+
+    // Trigger the print dialog
+    boolean doPrint = printerJob.printDialog();
+    if (doPrint) {
+        try {
+            printerJob.print();
+        } catch (PrinterException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    // Display the print dialog to allow user to choose a printer
+    if (printerJob.printDialog()) {
+        try {
+            printerJob.print();  // Print the document
+        } catch (PrinterException e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -365,6 +498,7 @@ try {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mbg;
     private javax.swing.JTable overview;
+    private javax.swing.JButton print;
     private javax.swing.JButton refresh;
     private javax.swing.JLabel report;
     private javax.swing.JButton reservation;
